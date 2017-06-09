@@ -14,16 +14,7 @@ module.exports = {
                 action,
                 cachePrefix = config.cachePrefix;
 
-            if (event.schema && event.table) {
-                subject = event.schema + '.' + event.table + (event.pk ? ('.' + event.pk) : '');
-            } else if (event.ns && event.pk) {
-                subject = event.ns + '.' + event.pk;
-            }
-            console.log("Subject: " + subject);
-            console.log("config.publishEventData: " + config.publishEventData);
-            console.log("Event: " + JSON.stringify(event));
-
-            nats.publish("subject", config.publishEventData ? JSON.stringify(event) : null);
+            nats.publish("postgres_replication", config.publishEventData ? JSON.stringify(event) : null);
 
             if (cachePrefix) {
                 action = event.type === 'update' ? 'invalidate.' : event.action === 'delete' ? 'purge.' : 'populate.';
