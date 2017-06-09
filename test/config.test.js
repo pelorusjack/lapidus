@@ -48,5 +48,4 @@ describe('Configuration File', function () {
             }
         }).toString().indexOf('plugin'), -1);
     });
-
 });

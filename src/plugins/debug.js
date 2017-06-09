@@ -1,6 +1,7 @@
 module.exports = {
     init: function (config, eventEmitter) {
-        if (config.enabled) {
+        console.log('Debug: plugin init called');
+        //if (config.enabled) {
             console.log('Debug: plugin init called; attaching event listeners');
 
             eventEmitter.on('event', function(event) {
@@ -26,7 +27,7 @@ module.exports = {
                 console.log('Debug: schema emitted');
                 console.log(event);
             });
-        }
+        //}
     },
 
     validateConfig: function (config, scopeConfig, globalConfig) {

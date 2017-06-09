@@ -19,8 +19,11 @@ module.exports = {
             } else if (event.ns && event.pk) {
                 subject = event.ns + '.' + event.pk;
             }
+            console.log("Subject: " + subject);
+            console.log("config.publishEventData: " + config.publishEventData);
+            console.log("Event: " + JSON.stringify(event));
 
-            nats.publish(subject, config.publishEventData ? JSON.stringify(event) : null);
+            nats.publish("subject", config.publishEventData ? JSON.stringify(event) : null);
 
             if (cachePrefix) {
                 action = event.type === 'update' ? 'invalidate.' : event.action === 'delete' ? 'purge.' : 'populate.';

@@ -1,0 +1,16 @@
+{
+  "backends": [
+    {
+      "type": "mysql",
+      "hostname": "127.0.0.1",
+      "username": "jacob",
+      "database": "jacob",
+      "password": "2PQM9aiKMJX5chv76gYdFJNi",
+      "emitEvents": true,
+      "emitErrors": true
+    }
+  ],
+  "plugins": {
+    "nats": []
+  }
+}

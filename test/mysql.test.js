@@ -11,19 +11,19 @@ function spawnShellSync(command, options) {
 describe('MySQL', function () {
     var output;
 
-    before(function() {
+    before(function () {
         var cmd = 'mysql -u root < ' + path.resolve(__dirname, 'sql', 'mysql_setup.sql');
-        output = spawnShellSync(cmd, {timeout: 1500});
+        output = spawnShellSync(cmd, { timeout: 1500 });
         assert.notEqual(output.stderr, null, cmd + ' should not output to STDERR');
         assert.equal(output.status, 0, cmd + ' should exit with a 0 exit code');
     });
 
     describe('handles connection errors', function () {
-        before(function() {
-            output = spawnSync('node', ['index.js', '-c', './test/config/mysql-badhost.json'], {timeout: 1500});
+        before(function () {
+            output = spawnSync('node', ['index.js', '-c', './test/config/mysql-badhost.json'], { timeout: 1500 });
         });
 
-        it('on initialization', function() {
+        it('on initialization', function () {
             var stdout = output.stderr.toString().toLowerCase();
             assert(stdout.indexOf('connecting') === -1, 'Should output connecting message');
             assert.notEqual(output.stderr.toString(), '', 'Should output an error to STDERR');
@@ -33,7 +33,7 @@ describe('MySQL', function () {
 
     describe('connects to valid backend(s) successfully', function () {
         before(function (done) {
-            output = spawnSync('node', ['index.js', '-c', './test/config/mysql-only.json'], {timeout: 1500});
+            output = spawnSync('node', ['index.js', '-c', './test/config/mysql-only.json'], { timeout: 1500 });
             done();
         });
 
@@ -96,7 +96,7 @@ describe('MySQL', function () {
             });
         });
 
-        it('with meta properties that cascade properly to their children', function() {
+        it('with meta properties that cascade properly to their children', function () {
             mysql.onEventsWrapper = eventsWrapper;
             assert.equal(mysql.onEventWrapper, eventsWrapper);
             assert.equal(mysql.onInsertWrapper, eventsWrapper);
@@ -147,34 +147,34 @@ describe('MySQL', function () {
             mysql.onInsertWrapper = otherFunc;
             mysql.onEventsWrapper = emptyFunc;
 
-            assert.equal(mysql.onEventWrapper,  emptyFunc);
+            assert.equal(mysql.onEventWrapper, emptyFunc);
             assert.equal(mysql.onInsertWrapper, otherFunc, 'custom value should not be overridden by meta value');
             assert.equal(mysql.onUpdateWrapper, emptyFunc);
             assert.equal(mysql.onDeleteWrapper, emptyFunc);
         });
 
-        it ('can ping the mysql backend over the control connection', function(done) {
-           mysql.ping(function(err, stats) {
-               assert.ifError(err, 'could not ping over the control connection');
-               assert.equal(stats.connected, true, 'cannot ping until control connection is established');
-               assert.equal(stats.host, config.hostname, 'ping hostname matches configuration');
-               assert.equal(typeof stats.latency, 'number', 'should return a numeric latency value');
-               done();
-           });
+        it('can ping the mysql backend over the control connection', function (done) {
+            mysql.ping(function (err, stats) {
+                assert.ifError(err, 'could not ping over the control connection');
+                assert.equal(stats.connected, true, 'cannot ping until control connection is established');
+                assert.equal(stats.host, config.hostname, 'ping hostname matches configuration');
+                assert.equal(typeof stats.latency, 'number', 'should return a numeric latency value');
+                done();
+            });
         });
 
-        it('allows all public properties to be nulled', function() {
-           publicProperties.forEach(function(prop) {
-               if (prop.indexOf('on') === 0) {
-                   mysql[prop] = null;
-               } else {
-                   mysql[prop] = true;
-               }
-           });
+        it('allows all public properties to be nulled', function () {
+            publicProperties.forEach(function (prop) {
+                if (prop.indexOf('on') === 0) {
+                    mysql[prop] = null;
+                } else {
+                    mysql[prop] = true;
+                }
+            });
         });
 
-        describe('to stream insert events', function() {
-            beforeEach(function() {
+        describe('to stream insert events', function () {
+            beforeEach(function () {
                 var sql = `
                     INSERT INTO jacob.test_table
                                 (first_name, last_name, sex, dob, nullable)
@@ -186,7 +186,7 @@ describe('MySQL', function () {
                 });
             });
 
-            it('emits an "event" event', function(done) {
+            it('emits an "event" event', function (done) {
                 function handler(evt) {
                     assert.equal(evt.type, 'insert');
                     assert.equal(evt.item.id, 1);
@@ -202,7 +202,7 @@ describe('MySQL', function () {
                 mysql.once('event', handler);
             });
 
-            it('emits an "insert" event', function(done) {
+            it('emits an "insert" event', function (done) {
                 function handler(evt) {
                     assert.equal(evt.item.id, 2);
                     done();
@@ -211,7 +211,7 @@ describe('MySQL', function () {
                 mysql.once('insert', handler);
             });
 
-            it('executes an onInsert handler', function(done) {
+            it('executes an onInsert handler', function (done) {
                 mysql.onInsert = function (evt) {
                     assert.equal(evt.item.id, 3);
                     mysql.onInsert = null;
@@ -219,7 +219,7 @@ describe('MySQL', function () {
                 };
             });
 
-            it('executes an onEvent handler', function(done) {
+            it('executes an onEvent handler', function (done) {
                 mysql.onEvent = function (evt) {
                     assert.equal(evt.item.id, 4);
                     assert.equal(evt.type, 'insert');
@@ -229,10 +229,10 @@ describe('MySQL', function () {
             });
         });
 
-        describe('to stream update events', function() {
+        describe('to stream update events', function () {
             var idx = 0;
 
-            beforeEach(function() {
+            beforeEach(function () {
                 var sql = `UPDATE jacob.test_table SET nullable = "${++idx}" WHERE id = ${idx};`;
 
                 mysql.zongji.ctrlConnection.query(sql, function (err, rows, fields) {
@@ -240,7 +240,7 @@ describe('MySQL', function () {
                 });
             });
 
-            it('emits an "event" event', function(done) {
+            it('emits an "event" event', function (done) {
                 function handler(evt) {
                     assert.equal(evt.type, 'update', 'event type should be properly set');
                     assert.equal(evt.item.id, idx, 'id should match idx');
@@ -251,7 +251,7 @@ describe('MySQL', function () {
                 mysql.once('event', handler);
             });
 
-            it('emits an "update" event', function(done) {
+            it('emits an "update" event', function (done) {
                 function handler(evt) {
                     assert.equal(evt.item.id, idx);
                     assert.equal(evt.item.nullable, evt.item.id);
@@ -261,7 +261,7 @@ describe('MySQL', function () {
                 mysql.once('update', handler);
             });
 
-            it('executes an onUpdate handler', function(done) {
+            it('executes an onUpdate handler', function (done) {
                 mysql.onUpdate = function (evt) {
                     assert.equal(evt.item.id, idx);
                     assert.equal(evt.item.nullable, evt.item.id);
@@ -270,7 +270,7 @@ describe('MySQL', function () {
                 };
             });
 
-            it('executes an onEvent handler', function(done) {
+            it('executes an onEvent handler', function (done) {
                 mysql.onEvent = function (evt) {
                     assert.equal(evt.type, 'update');
                     assert.equal(evt.item.id, idx);
@@ -281,10 +281,10 @@ describe('MySQL', function () {
             });
         });
 
-        describe('to stream delete events', function() {
+        describe('to stream delete events', function () {
             var idx = 0;
 
-            beforeEach(function() {
+            beforeEach(function () {
                 var sql = `DELETE FROM jacob.test_table WHERE id = ${++idx};`;
 
                 mysql.zongji.ctrlConnection.query(sql, function (err, rows, fields) {
@@ -292,7 +292,7 @@ describe('MySQL', function () {
                 });
             });
 
-            it('emits an "event" event', function(done) {
+            it('emits an "event" event', function (done) {
                 function handler(evt) {
                     assert.equal(evt.type, 'delete');
                     assert.equal(evt.pk, idx);
@@ -302,7 +302,7 @@ describe('MySQL', function () {
                 mysql.once('event', handler);
             });
 
-            it('emits a "delete" event', function(done) {
+            it('emits a "delete" event', function (done) {
                 function handler(evt) {
                     assert.equal(evt.pk, idx);
                     done();
@@ -311,7 +311,7 @@ describe('MySQL', function () {
                 mysql.once('delete', handler);
             });
 
-            it('executes an onDelete handler', function(done) {
+            it('executes an onDelete handler', function (done) {
                 mysql.onDelete = function (evt) {
                     assert.equal(evt.pk, idx);
                     mysql.onDelete = null;
@@ -319,7 +319,7 @@ describe('MySQL', function () {
                 };
             });
 
-            it('executes an onEvent handler', function(done) {
+            it('executes an onEvent handler', function (done) {
                 mysql.onEvent = function (evt) {
                     assert.equal(evt.type, 'delete');
                     assert.equal(evt.pk, idx);
@@ -329,12 +329,12 @@ describe('MySQL', function () {
             });
         });
 
-        describe('filters the event stream', function() {
+        describe('filters the event stream', function () {
 
-            it ('by table (match)', function(done) {
+            it('by table (match)', function (done) {
                 mysql.excludeTables = ['test_table'];
 
-                mysql.onInsert = function() {
+                mysql.onInsert = function () {
                     assert(false, 'onInsert event should not run on excluded table');
                 };
 
@@ -350,10 +350,10 @@ describe('MySQL', function () {
                 });
             });
 
-            it ('by table (non-match)', function(done) {
+            it('by table (non-match)', function (done) {
                 mysql.excludeTables = ['test_table2'];
 
-                mysql.onInsert = function(event) {
+                mysql.onInsert = function (event) {
                     assert.equal(event.item.first_name, 'Sayid');
                     done();
                 };
@@ -369,8 +369,8 @@ describe('MySQL', function () {
                 });
             });
 
-            it ('by table (empty)', function(done) {
-                mysql.onInsert = function(event) {
+            it('by table (empty)', function (done) {
+                mysql.onInsert = function (event) {
                     assert.equal(event.item.first_name, 'John');
                     done();
                 };

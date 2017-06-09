@@ -17,5 +17,8 @@
       "password": "2PQM9aiKMJX5chv76gYdFJNi",
       "slot": "hurley_slot"
     }
-  ]
+  ],
+  "plugins": {
+    "debug": {}
+  }
 }

@@ -1,7 +1,84 @@
 {
-  "name": "lapidus",
+  "_args": [
+    [
+      {
+        "raw": "lapidus",
+        "scope": null,
+        "escapedName": "lapidus",
+        "name": "lapidus",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Source/postgres_listen"
+    ]
+  ],
+  "_from": "lapidus@latest",
+  "_id": "lapidus@0.2.0",
+  "_inCache": true,
+  "_location": "/lapidus",
+  "_nodeVersion": "6.6.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/lapidus-0.2.0.tgz_1480715570793_0.38694956828840077"
+  },
+  "_npmUser": {
+    "name": "jmealo",
+    "email": "jeffreymealo@gmail.com"
+  },
+  "_npmVersion": "3.10.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "lapidus",
+    "scope": null,
+    "escapedName": "lapidus",
+    "name": "lapidus",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/lapidus/-/lapidus-0.2.0.tgz",
+  "_shasum": "a32e5ec63bcccfd2bddd7df2a5f81c8e336b67f8",
+  "_shrinkwrap": null,
+  "_spec": "lapidus",
+  "_where": "/Source/postgres_listen",
+  "bin": {
+    "lapidus": "./index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/JarvusInnovations/lapidus/issues"
+  },
+  "dependencies": {
+    "async": "^1.5.2",
+    "errno": "^0.1.4",
+    "hiredis": "^0.5.0",
+    "ioredis": "^2.4.0",
+    "jsonlint": "^1.6.2",
+    "ldjson-stream": "^1.2.1",
+    "mongo-oplog": "^1.0.1",
+    "mongodb": "^2.1.18",
+    "nats": "^0.4.4",
+    "pg-config": "0.0.1",
+    "yargs": "^3.32.0",
+    "zongji": "github:jmealo/zongji#master"
+  },
   "description": "Stream database changes fast, in order, with little to no performance penalty.",
-  "version": "0.1.2",
+  "devDependencies": {
+    "coveralls": "^2.11.4",
+    "istanbul": "^0.3.20",
+    "mocha": "^2.3.2",
+    "pg": "^6.0.2"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "a32e5ec63bcccfd2bddd7df2a5f81c8e336b67f8",
+    "tarball": "https://registry.npmjs.org/lapidus/-/lapidus-0.2.0.tgz"
+  },
+  "gitHead": "c79e15f44397f2a1b7c0cf1569ee74461b2e2f87",
+  "homepage": "https://github.com/JarvusInnovations/lapidus#readme",
   "keywords": [
     "postgresql",
     "postgres",
@@ -13,44 +90,30 @@
     "binlog",
     "listener"
   ],
+  "license": "MIT",
   "maintainers": [
     {
-      "name": "Jeffrey Mealo",
-      "email": "jeffreymealo@gmail.com",
-      "web": "http://jeffreymealo.com"
+      "name": "jmealo",
+      "email": "jeffreymealo@gmail.com"
     }
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JarvusInnovations/lapidus.git"
-  },
-  "license": "MIT",
-  "scripts": {
-    "test": "mocha ./test/*",
-    "test-travis": "istanbul cover _mocha -- -R spec ./test/*"
-  },
-  "devDependencies": {
-    "coveralls": "^2.11.4",
-    "istanbul": "^0.3.20",
-    "mocha": "^2.3.2",
-    "pg": "^6.0.2"
-  },
-  "dependencies": {
-    "async": "^1.5.2",
-    "errno": "^0.1.4",
-    "jsonlint": "^1.6.2",
-    "ldjson-stream": "^1.2.1",
-    "mongodb": "^2.1.18",
-    "yargs": "^3.32.0"
-  },
+  "name": "lapidus",
   "optionalDependencies": {
     "mongo-oplog": "^1.0.1",
+    "mongodb": "^2.1.18",
     "nats": "^0.4.4",
     "pg-config": "0.0.1",
     "zongji": "jmealo/zongji#master"
   },
   "preferGlobal": true,
-  "bin": {
-    "lapidus": "./index.js"
-  }
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JarvusInnovations/lapidus.git"
+  },
+  "scripts": {
+    "test": "mocha ./test/*",
+    "test-travis": "istanbul cover _mocha -- -R spec ./test/*"
+  },
+  "version": "0.2.0"
 }
